@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="微信公众号文章在线排版工具，支持主题、内容块、富文本复制和 HTML 导出。">
+    <title>微排版助手</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">微</span>
+          <div>
+            <h1>微排版助手</h1>
+            <p>微信公众号文章在线排版</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn" id="importTextBtn" type="button" title="导入纯文本" aria-label="导入纯文本">↧</button>
+          <button class="icon-btn" id="clearBtn" type="button" title="清空正文" aria-label="清空正文">⌫</button>
+          <button class="primary-btn" id="copyRichBtn" type="button">复制富文本</button>
+          <button class="ghost-btn" id="copyHtmlBtn" type="button">复制 HTML</button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="sidebar" aria-label="排版工具">
+          <section class="panel">
+            <h2>主题</h2>
+            <div class="theme-list" id="themeList"></div>
+            <label class="field-label" for="accentColor">强调色</label>
+            <input id="accentColor" class="color-input" type="color" value="#1f6f64">
+          </section>
+
+          <section class="panel">
+            <h2>基础</h2>
+            <div class="tool-grid">
+              <button data-command="formatBlock" data-value="h2" type="button">大标题</button>
+              <button data-command="formatBlock" data-value="h3" type="button">小标题</button>
+              <button data-command="bold" type="button">加粗</button>
+              <button data-command="removeFormat" type="button">清样式</button>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h2>模块</h2>
+            <div class="tool-grid">
+              <button data-block="quote" type="button">引用</button>
+              <button data-block="callout" type="button">重点框</button>
+              <button data-block="divider" type="button">分隔线</button>
+              <button data-block="button" type="button">按钮</button>
+              <button data-block="numbered" type="button">编号块</button>
+              <button data-block="note" type="button">注释</button>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h2>整篇</h2>
+            <div class="tool-grid">
+              <button id="beautifyBtn" type="button">一键美化</button>
+              <button id="downloadBtn" type="button">下载 HTML</button>
+            </div>
+          </section>
+        </aside>
+
+        <section class="editor-stage" aria-label="编辑区">
+          <div class="stage-header">
+            <div>
+              <span class="eyebrow">Editor</span>
+              <h2>正文编辑</h2>
+            </div>
+            <div class="counter"><span id="wordCount">0</span> 字</div>
+          </div>
+          <article id="editor" class="article-editor" contenteditable="true" spellcheck="false">
+            <h2>这里写文章标题</h2>
+            <p>把草稿粘贴到这里，然后用左侧工具套用标题、引用、重点框和分隔线。</p>
+            <p>完成后点击右上角复制富文本，直接粘贴到微信公众号编辑器即可。</p>
+          </article>
+        </section>
+
+        <section class="preview-stage" aria-label="预览区">
+          <div class="stage-header">
+            <div>
+              <span class="eyebrow">Preview</span>
+              <h2>公众号预览</h2>
+            </div>
+            <button class="ghost-btn compact" id="syncPreviewBtn" type="button">刷新</button>
+          </div>
+          <div class="phone-frame">
+            <div class="phone-bar"></div>
+            <article id="preview" class="wechat-preview"></article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="importDialog" class="modal">
+      <form method="dialog">
+        <div class="modal-head">
+          <h2>导入纯文本</h2>
+          <button class="icon-btn" value="cancel" type="submit" aria-label="关闭">×</button>
+        </div>
+        <textarea id="plainText" rows="10" placeholder="粘贴草稿文本，空行会自动分段。"></textarea>
+        <div class="modal-actions">
+          <button class="ghost-btn" value="cancel" type="submit">取消</button>
+          <button class="primary-btn" id="confirmImportBtn" value="default" type="button">导入</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
